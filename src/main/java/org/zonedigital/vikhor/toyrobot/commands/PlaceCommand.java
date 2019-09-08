@@ -12,6 +12,12 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+/**
+ * Implementation of PLACE command
+ * 
+ * @author vikhor
+ *
+ */
 @Component
 @Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 @Setter
@@ -26,6 +32,10 @@ public class PlaceCommand implements Command {
 	private FacingEnum facing;
 	
 	
+	/**
+	 * Placing the robot to the table i.e. setting its position.
+	 * @param toyRobotPosition The current position of the robot
+	 */
 	@Override
 	public void execute(final ToyRobotPosition toyRobotPosition) {
 		LOGGER.info("Executing a PLACE command ({},{},{}) on the position {}", x, y, facing, toyRobotPosition);

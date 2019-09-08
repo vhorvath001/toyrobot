@@ -1,22 +1,26 @@
 package org.zonedigital.vikhor.toyrobot.commands;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
+import java.io.PrintStream;
+
+import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.zonedigital.vikhor.toyrobot.BorderChecker;
 import org.zonedigital.vikhor.toyrobot.constants.FacingEnum;
+import org.zonedigital.vikhor.toyrobot.utils.BorderChecker;
 
 @RunWith(SpringRunner.class)
 public class CommandFactoryTest {
@@ -63,14 +67,10 @@ public class CommandFactoryTest {
 		when(mockedBorderChecker.check(23)).thenThrow(new IllegalArgumentException("The value 23 is not in 0..4!"));
 		
 		// calling the method to be tested
-		try {
-			Command command = instance.getCommand(instruction);
-			fail("IllegalArgumentException should have been thrown!");
-		} catch(IllegalArgumentException e) {
-			assertEquals("The value 23 is not in 0..4!", e.getMessage());
-		}
-		
-		// verifying
+		Command command = instance.getCommand(instruction);
+
+		// checking & verifying
+		assertEquals(DummyCommand.class, command.getClass());
 		verify(mockedBorderChecker, times(1)).check(2);
 		verify(mockedBorderChecker, times(1)).check(23);
 		verifyNoMoreInteractions(mockedBorderChecker);
@@ -83,14 +83,10 @@ public class CommandFactoryTest {
 		String instruction = "PLACE 2 , ,  NORTH";
 		
 		// calling the method to be tested
-		try {
-			Command command = instance.getCommand(instruction);
-			fail("IllegalArgumentException should have been thrown!");
-		} catch(IllegalArgumentException e) {
-			assertEquals("For input string: \"\"", e.getMessage());
-		}
+		Command command = instance.getCommand(instruction);
 
-		// verifying
+		// checking & verifying
+		assertEquals(DummyCommand.class, command.getClass());
 		verifyNoMoreInteractions(mockedBorderChecker);
 	}
 
@@ -101,14 +97,10 @@ public class CommandFactoryTest {
 		String instruction = "PLACE 2 , ,  NORRTH";
 		
 		// calling the method to be tested
-		try {
-			Command command = instance.getCommand(instruction);
-			fail("IllegalArgumentException should have been thrown!");
-		} catch(IllegalArgumentException e) {
-			assertEquals("For input string: \"\"", e.getMessage());
-		}
+		Command command = instance.getCommand(instruction);
 
-		// verifying
+		// checking & verifying
+		assertEquals(DummyCommand.class, command.getClass());
 		verifyNoMoreInteractions(mockedBorderChecker);
 	}
 	
@@ -169,32 +161,18 @@ public class CommandFactoryTest {
 	}
 
 	
+	@After
+	public void reset() {
+		Mockito.reset(mockedBorderChecker);
+	}
+	
 	@Configuration
+	@ComponentScan
     @Import(CommandFactory.class)
     static class Config {
-		@Bean
-    	public PlaceCommand placeCommand() {
-    		return new PlaceCommand();
-    	}
-		@Bean
-    	public MoveCommand moveCommand() {
-    		return new MoveCommand();
-    	}
-		@Bean
-    	public ReportCommand reportCommand() {
-    		return new ReportCommand();
-    	}
-		@Bean
-    	public RotateLeftCommand rotateLeftCommand() {
-    		return new RotateLeftCommand();
-    	}
-		@Bean
-    	public RotateRightCommand rotateRightCommand() {
-    		return new RotateRightCommand();
-    	}
-		@Bean
-    	public DummyCommand dummyCommand() {
-    		return new DummyCommand();
-    	}
+		@Bean(name = "reportCommandStream")
+		public PrintStream reportCommandStream() {
+			return System.out;
+		}		
 	}	
 }

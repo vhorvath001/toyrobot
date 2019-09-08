@@ -9,6 +9,12 @@ import org.zonedigital.vikhor.toyrobot.domain.ToyRobotPosition;
 
 import lombok.ToString;
 
+/**
+ * Dummy command if the text instruction was not correct.
+ * 
+ * @author vikhor
+ *
+ */
 @Component
 @Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 @ToString
@@ -20,7 +26,7 @@ public class DummyCommand implements Command {
 	@Override
 	public void execute(ToyRobotPosition toyRobotPosition) {
 		LOGGER.info("Executing a DUMMY command on the position {}", toyRobotPosition);
-		System.out.println("Just hanging out...");
+		System.out.println("Just hanging out for a while...");
 	}
 
 }

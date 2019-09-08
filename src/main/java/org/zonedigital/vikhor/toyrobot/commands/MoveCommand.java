@@ -6,11 +6,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
-import org.zonedigital.vikhor.toyrobot.BorderChecker;
 import org.zonedigital.vikhor.toyrobot.domain.ToyRobotPosition;
+import org.zonedigital.vikhor.toyrobot.utils.BorderChecker;
 
 import lombok.ToString;
 
+/**
+ * Implementation of MOVE command
+ * 
+ * @author vikhor
+ *
+ */
 @Component
 @Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 @ToString
@@ -22,6 +28,10 @@ public class MoveCommand implements Command {
 	private BorderChecker borderChecker;
 
 	
+	/**
+	 * Moving the robot in the direction it faces.
+	 * @param toyRobotPosition The current position of the robot 
+	 */
 	@Override
 	public void execute(final ToyRobotPosition toyRobotPosition) {
 		LOGGER.info("Executing a MOVE command on the position {}", toyRobotPosition);

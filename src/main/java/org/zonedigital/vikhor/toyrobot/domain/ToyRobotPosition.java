@@ -8,6 +8,12 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 
+/**
+ * Domain object to store the position of the robot.
+ * 
+ * @author vikhor
+ *
+ */
 @Builder
 @Data
 @NoArgsConstructor

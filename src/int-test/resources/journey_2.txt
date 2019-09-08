@@ -1,0 +1,16 @@
+place 2,4,DOUTH
+move
+report
+place 4,4,SOUTH
+move
+move
+move
+move
+move
+right
+move
+move
+move
+move
+move
+report

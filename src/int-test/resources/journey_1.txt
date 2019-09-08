@@ -1,0 +1,12 @@
+place 0,0,SOUTH
+move
+right
+move
+report
+right
+move
+right
+right
+left
+move
+report
